@@ -12,7 +12,7 @@ function ImageUpload() {
     formData.append('image', values.image);
 
     try {
-      await axios.post('http://localhost:5000/api/images/upload', formData, {
+      await axios.post('https://image-upload-formik-jqk6.vercel.app/api/images/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
