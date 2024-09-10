@@ -27,11 +27,12 @@ function UploadedImages() {
         ) : (
           <div className="images-grid">
             {images.map((image) => (
-              <img
-                key={image._id}
-                src={`http://localhost:5000/uploads/${image.filename}`}
-                alt={image.originalname}
-              />
+              <div key={image._id} className="image-container">
+                <img
+                  src={`http://localhost:5000/uploads/${image.filename}`}
+                  alt={image.originalname}
+                />
+              </div>
             ))}
           </div>
         )}
