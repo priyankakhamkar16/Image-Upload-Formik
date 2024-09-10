@@ -1,0 +1,43 @@
+/* UploadedImages.css */
+
+.container {
+  max-width: 1000px; /* Increased width for better layout */
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 2.5rem; /* Increased font size */
+}
+
+.no-images {
+  font-size: 1.5rem; /* Increased font size */
+  color: #888;
+}
+
+.images-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; /* Increased gap between images */
+}
+
+.images-grid img {
+  width: 200px; /* Increased width */
+  height: 200px; /* Increased height */
+  object-fit: contain; /* Ensure the entire image is visible without distortion */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.images-grid img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}

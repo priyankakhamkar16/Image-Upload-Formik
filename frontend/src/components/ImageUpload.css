@@ -1,0 +1,73 @@
+/* ImageUpload.css */
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+  
+  .drag-drop-area {
+    border: 2px dashed #4caf50; /* Green border */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #e8f5e9; /* Light green background */
+    color: #4caf50; /* Green text */
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  
+  .drag-drop-area:hover {
+    background: #c8e6c9; /* Slightly darker green background on hover */
+    border-color: #388e3c; /* Darker green border on hover */
+  }
+  
+  input[type="file"] {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 1rem;
+  }
+  
+  button {
+    background-color: #ff9800; /* Orange background */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 10px;
+  }
+  
+  button:hover {
+    background-color: #e68900; /* Darker orange background on hover */
+    transform: scale(1.05);
+  }
+  
+  button:disabled {
+    background-color: #b0bec5;
+    cursor: not-allowed;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 10px;
+  }
+  
