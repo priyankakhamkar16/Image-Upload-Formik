@@ -56,10 +56,10 @@ function ImageUpload() {
         }}
         onSubmit={handleSubmit}
       >
-        {({ setFieldValue, isSubmitting, errors, touched }) => (
+        {({ setFieldValue, isSubmitting }) => (
           <Form>
             <div
-              className={`drag-drop-area ${errors.image && touched.image ? 'error' : ''}`}
+              className="drag-drop-area"
               onDrop={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
