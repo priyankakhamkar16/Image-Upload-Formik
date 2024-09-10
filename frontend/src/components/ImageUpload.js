@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, ErrorMessage } from 'formik';
 import axios from 'axios';
-import './ImageUpload.css';  // Import the CSS file
+import './ImageUpload.css';
 
 function ImageUpload() {
   const navigate = useNavigate();
 
-  const handleSubmit = async (values, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     const formData = new FormData();
     formData.append('image', values.image);
 
@@ -18,11 +18,25 @@ function ImageUpload() {
         },
       });
       alert('Image uploaded successfully');
-      setSubmitting(false);
+      resetForm();
     } catch (error) {
       console.error('Error uploading image', error);
       alert('Error uploading image');
+    } finally {
       setSubmitting(false);
+    }
+  };
+
+  const validateImageFile = (file) => {
+    if (file) {
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'];
+      const maxSizeMB = 5;
+      if (!validTypes.includes(file.type)) {
+        return 'Please upload an image file only';
+      }
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        return 'Image size should not exceed 5 MB';
+      }
     }
   };
 
@@ -31,18 +45,31 @@ function ImageUpload() {
       <h1>Upload Image</h1>
       <Formik
         initialValues={{ image: null }}
+        validate={(values) => {
+          const errors = {};
+          const errorMessage = validateImageFile(values.image);
+          if (errorMessage) {
+            errors.image = errorMessage;
+          }
+          return errors;
+        }}
         onSubmit={handleSubmit}
       >
-        {({ setFieldValue, isSubmitting }) => (
+        {({ setFieldValue, isSubmitting, errors, touched }) => (
           <Form>
             <div
-              className="drag-drop-area"
+              className={`drag-drop-area ${errors.image && touched.image ? 'error' : ''}`}
               onDrop={(event) => {
                 event.preventDefault();
                 event.stopPropagation();
                 const files = event.dataTransfer.files;
                 if (files.length > 0) {
-                  setFieldValue('image', files[0]);
+                  const errorMessage = validateImageFile(files[0]);
+                  if (!errorMessage) {
+                    setFieldValue('image', files[0]);
+                  } else {
+                    alert(errorMessage);
+                  }
                 }
               }}
               onDragOver={(event) => event.preventDefault()}
@@ -57,7 +84,13 @@ function ImageUpload() {
               onChange={(event) => {
                 const files = event.currentTarget.files;
                 if (files.length > 0) {
-                  setFieldValue('image', files[0]);
+                  const errorMessage = validateImageFile(files[0]);
+                  if (!errorMessage) {
+                    setFieldValue('image', files[0]);
+                  } else {
+                    alert(errorMessage);
+                    event.target.value = null;
+                  }
                 }
               }}
             />
