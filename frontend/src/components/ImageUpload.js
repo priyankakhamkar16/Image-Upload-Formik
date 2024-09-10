@@ -2,7 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, ErrorMessage } from 'formik';
 import axios from 'axios';
+<<<<<<< HEAD
 import './ImageUpload.css';  
+=======
+import './ImageUpload.css';
+>>>>>>> 7e7d412a11008d4038f0e16abf80da7807fa2c67
 
 function ImageUpload() {
   const navigate = useNavigate();
@@ -12,7 +16,7 @@ function ImageUpload() {
     formData.append('image', values.image);
 
     try {
-      await axios.post('http://localhost:5000/api/images/upload', formData, {
+      await axios.post('https://image-upload-formik-jqk6.vercel.app/api/images/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -30,11 +34,19 @@ function ImageUpload() {
   const validateImageFile = (file) => {
     if (file) {
       const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'];
+<<<<<<< HEAD
       const maxSizeMB = 5; 
       if (!validTypes.includes(file.type)) {
         return 'Please upload an image file only';
       }
       if (file.size > maxSizeMB * 1024 * 1024) { 
+=======
+      const maxSizeMB = 5;
+      if (!validTypes.includes(file.type)) {
+        return 'Please upload an image file only';
+      }
+      if (file.size > maxSizeMB * 1024 * 1024) {
+>>>>>>> 7e7d412a11008d4038f0e16abf80da7807fa2c67
         return 'Image size should not exceed 5 MB';
       }
     }
@@ -89,7 +101,11 @@ function ImageUpload() {
                     setFieldValue('image', files[0]);
                   } else {
                     alert(errorMessage);
+<<<<<<< HEAD
                     event.target.value = null;  
+=======
+                    event.target.value = null;
+>>>>>>> 7e7d412a11008d4038f0e16abf80da7807fa2c67
                   }
                 }
               }}
