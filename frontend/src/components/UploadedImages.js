@@ -8,7 +8,7 @@ function UploadedImages() {
   useEffect(() => {
     async function fetchImages() {
       try {
-        const response = await axios.get('http://localhost:5000/api/images');
+        const response = await axios.get('https://image-upload-formik-jqk6.vercel.app/api/images');
         setImages(response.data);
       } catch (error) {
         console.error('Error fetching images', error);
@@ -29,7 +29,7 @@ function UploadedImages() {
             {images.map((image) => (
               <img
                 key={image._id}
-                src={`http://localhost:5000/uploads/${image.filename}`}
+                src={`https://image-upload-formik-jqk6.vercel.app/uploads/${image.filename}`}
                 alt={image.originalname}
               />
             ))}
