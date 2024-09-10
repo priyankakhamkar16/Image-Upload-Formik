@@ -27,11 +27,12 @@ function UploadedImages() {
         ) : (
           <div className="images-grid">
             {images.map((image) => (
-              <img
-                key={image._id}
-                src={`https://image-upload-formik-jqk6.vercel.app/uploads/${image.filename}`}
-                alt={image.originalname}
-              />
+              <div key={image._id} className="image-container">
+                <img
+                  src={`https://image-upload-formik-jqk6.vercel.app/uploads/${image.filename}`}
+                  alt={image.originalname}
+                />
+              </div>
             ))}
           </div>
         )}
