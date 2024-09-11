@@ -22,7 +22,7 @@ function ImageUpload() {
       resetForm();
       fileInputRef.current.value = '';  // Reset the file input
     } catch (error) {
-      console.error('Error uploading image', error);
+      console.error('Error uploading image:', error.message);
       alert('Error uploading image');
     } finally {
       setSubmitting(false);
