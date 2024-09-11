@@ -70,6 +70,7 @@ function ImageUpload() {
                     setFieldValue('image', files[0]);
                   } else {
                     alert(errorMessage);
+                    setFieldValue('image', null); // Reset Formik's value
                   }
                 }
               }}
@@ -90,7 +91,7 @@ function ImageUpload() {
                     setFieldValue('image', files[0]);
                   } else {
                     alert(errorMessage);
-                    event.target.value = null;
+                    setFieldValue('image', null); // Reset Formik's value
                   }
                 }
               }}
