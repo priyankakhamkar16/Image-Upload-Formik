@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import './ImageUpload.css';
 
 function ImageUpload() {
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     const formData = new FormData();
@@ -19,6 +20,7 @@ function ImageUpload() {
       });
       alert('Image uploaded successfully');
       resetForm();
+      fileInputRef.current.value = '';  // Reset the file input
     } catch (error) {
       console.error('Error uploading image', error);
       alert('Error uploading image');
@@ -70,7 +72,6 @@ function ImageUpload() {
                     setFieldValue('image', files[0]);
                   } else {
                     alert(errorMessage);
-                    setFieldValue('image', null);
                   }
                 }
               }}
@@ -79,10 +80,11 @@ function ImageUpload() {
               <p>Drag and drop your image here</p>
             </div>
 
-            <Field
+            <input
               type="file"
               name="image"
               accept="image/*"
+              ref={fileInputRef}  // Use a ref to manipulate the input
               onChange={(event) => {
                 const files = event.currentTarget.files;
                 if (files && files.length > 0) {
@@ -91,7 +93,7 @@ function ImageUpload() {
                     setFieldValue('image', files[0]);
                   } else {
                     alert(errorMessage);
-                    setFieldValue('image', null);
+                    fileInputRef.current.value = '';  // Clear the input
                   }
                 }
               }}
