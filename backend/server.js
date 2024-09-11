@@ -12,7 +12,9 @@ const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://Priyanka123:Mongodb162001@cluster0.j9fjj2f.mongodb.net/?authMechanism=DEFAULT', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+})
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
 app.use(cors({
@@ -21,6 +23,13 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Ensure uploads directory exists
+const fs = require('fs');
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
 
 // Image Schema
 const imageSchema = new mongoose.Schema({
@@ -48,12 +57,17 @@ app.get('/api/images', async (req, res) => {
     const images = await Image.find();
     res.json(images);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching images' });
+    console.error('Error fetching images:', error.message);
+    res.status(500).json({ message: 'Error fetching images', error: error.message });
   }
 });
 
 app.post('/api/upload', upload.single('image'), async (req, res) => {
   try {
+    if (!req.file) {
+      throw new Error('No file uploaded');
+    }
+
     const image = new Image({
       filename: req.file.filename,
       originalname: req.file.originalname,
@@ -62,7 +76,8 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
     await image.save();
     res.status(200).json(image);
   } catch (error) {
-    res.status(500).json({ message: 'Error uploading image' });
+    console.error('Error uploading image:', error.message);
+    res.status(500).json({ message: 'Error uploading image', error: error.message });
   }
 });
 
