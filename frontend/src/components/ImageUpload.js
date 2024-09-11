@@ -13,16 +13,17 @@ function ImageUpload() {
     formData.append('image', values.image);
 
     try {
-      await axios.post('https://image-upload-formik.vercel.app/api/upload', formData, {
+      const response = await axios.post('https://image-upload-formik.vercel.app/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
+      console.log('Image uploaded successfully:', response.data);
       alert('Image uploaded successfully');
       resetForm();
       fileInputRef.current.value = '';  // Reset the file input
     } catch (error) {
-      console.error('Error uploading image:', error.message);
+      console.error('Error uploading image:', error);
       alert('Error uploading image');
     } finally {
       setSubmitting(false);
