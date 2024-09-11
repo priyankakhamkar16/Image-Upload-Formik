@@ -85,7 +85,7 @@ function ImageUpload() {
               accept="image/*"
               onChange={(event) => {
                 const files = event.currentTarget.files;
-                if (files.length > 0) {
+                if (files && files.length > 0) {
                   const errorMessage = validateImageFile(files[0]);
                   if (!errorMessage) {
                     setFieldValue('image', files[0]);
