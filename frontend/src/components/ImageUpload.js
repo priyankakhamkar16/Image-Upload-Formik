@@ -12,7 +12,7 @@ function ImageUpload() {
     formData.append('image', values.image);
 
     try {
-      await axios.post('https://image-upload-formik.vercel.app/api/images/upload', formData, {
+      await axios.post('https://image-upload-formik.vercel.app/api/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -56,7 +56,7 @@ function ImageUpload() {
         }}
         onSubmit={handleSubmit}
       >
-        {({ setFieldValue, isSubmitting }) => (
+        {({ setFieldValue, isSubmitting, values }) => (
           <Form>
             <div
               className="drag-drop-area"
