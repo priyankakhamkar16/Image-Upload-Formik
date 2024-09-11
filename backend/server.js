@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const multer = require('multer'); // Add multer for handling file uploads
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,6 +30,18 @@ const imageSchema = new mongoose.Schema({
 
 const Image = mongoose.model('Image', imageSchema);
 
+// Multer setup for file upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage });
+
 // Routes
 app.get('/api/images', async (req, res) => {
   try {
@@ -39,8 +52,18 @@ app.get('/api/images', async (req, res) => {
   }
 });
 
-app.post('/api/upload', (req, res) => {
-  // Upload logic here
+app.post('/api/upload', upload.single('image'), async (req, res) => {
+  try {
+    const image = new Image({
+      filename: req.file.filename,
+      originalname: req.file.originalname,
+    });
+
+    await image.save();
+    res.status(200).json(image);
+  } catch (error) {
+    res.status(500).json({ message: 'Error uploading image' });
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {
