@@ -10,7 +10,7 @@
       }
     ],
     "env": {
-      "REACT_APP_API_URL": "https://image-upload-formik-jqk6.vercel.app/api"
+      "REACT_APP_API_URL": "https://image-upload-formik.vercel.app/api"
     }
   }
   
