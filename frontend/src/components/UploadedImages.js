@@ -8,7 +8,7 @@ function UploadedImages() {
   useEffect(() => {
     async function fetchImages() {
       try {
-        const response = await axios.get('https://image-upload-formik-jqk6.vercel.app/api/images');
+        const response = await axios.get('https://image-upload-formik.vercel.app/api/images');
         setImages(response.data);
       } catch (error) {
         console.error('Error fetching images', error);
