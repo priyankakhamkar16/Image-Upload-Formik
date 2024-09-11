@@ -66,6 +66,7 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
   }
 });
 
+// Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 
@@ -74,6 +75,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// Start the server
 app.listen(PORT, () => {
-  console.log(Server running on port ${PORT});
-}); 
+  console.log(`Server running on port ${PORT}`);
+});
