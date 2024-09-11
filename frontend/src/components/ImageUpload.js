@@ -56,7 +56,7 @@ function ImageUpload() {
         }}
         onSubmit={handleSubmit}
       >
-        {({ setFieldValue, isSubmitting, values }) => (
+        {({ setFieldValue, isSubmitting }) => (
           <Form>
             <div
               className="drag-drop-area"
