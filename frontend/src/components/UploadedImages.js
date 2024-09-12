@@ -9,7 +9,7 @@ function UploadedImages() {
   useEffect(() => {
     async function fetchImages() {
       try {
-        const response = await axios.get('http://localhost:5000/api/images');
+        const response = await axios.get('https://image-upload-formik-jqk6.vercel.app/api/images'); // Vercel backend URL
         setImages(response.data);
       } catch (error) {
         console.error('Error fetching images', error);
@@ -20,7 +20,7 @@ function UploadedImages() {
     fetchImages();
   }, []);
 
-  const imageBaseURL = 'https://image-upload-formik.vercel.app/uploads/'; // Ensure this URL is correct
+  const imageBaseURL = 'https://image-upload-formik-jqk6.vercel.app/uploads/'; // Vercel backend image base URL
 
   return (
     <div className="container">
@@ -34,11 +34,7 @@ function UploadedImages() {
             {images.map((image) => (
               <div key={image._id} className="image-container">
                 <img
-<<<<<<< HEAD
-                  src={`http://localhost:5000/uploads/${image.filename}`}
-=======
                   src={`${imageBaseURL}${image.filename}`}
->>>>>>> 43b73dff8a83a37fdc2750cdb6818dfa13140849
                   alt={image.originalname}
                   onError={(e) => {
                     e.target.src = 'https://via.placeholder.com/150'; // Placeholder image on error
