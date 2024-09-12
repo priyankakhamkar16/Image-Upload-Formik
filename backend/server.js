@@ -1,79 +1,89 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const multer = require('multer');
-const path = require('path');
 const cors = require('cors');
-require('dotenv').config(); // Load environment variables from .env file
+const bodyParser = require('body-parser');
+const path = require('path');
+const multer = require('multer');
 
-// Initialize the app
 const app = express();
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(express.json());
-app.use(cors()); // Allow cross-origin requests
-app.use('/uploads', express.static('uploads')); // Serve static files from the uploads directory
-
-// Connect to MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI, {
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://Priyanka123:Mongodb162001@cluster0.j9fjj2f.mongodb.net/?authMechanism=DEFAULT', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error('MongoDB connection error:', err));
 
-// Define image schema and model
+// Middleware
+app.use(cors({
+  origin: 'https://image-upload-formik-bnf2.vercel.app', // Replace this with your frontend URL
+  optionsSuccessStatus: 200,
+}));
+app.use(bodyParser.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Image Schema
 const imageSchema = new mongoose.Schema({
-  originalname: String,
   filename: String,
-  path: String,
-  mimetype: String,
-  size: Number
+  originalname: String,
 });
 
 const Image = mongoose.model('Image', imageSchema);
 
-// Configure Multer for file uploading
+// Multer setup for file upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
 const upload = multer({ storage });
 
-// Route for uploading images
-app.post('/api/images/upload', upload.single('image'), async (req, res) => {
-  try {
-    const image = new Image({
-      originalname: req.file.originalname,
-      filename: req.file.filename,
-      path: req.file.path,
-      mimetype: req.file.mimetype,
-      size: req.file.size
-    });
-
-    await image.save();
-    res.status(200).json(image);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Route for fetching images
+// Routes
 app.get('/api/images', async (req, res) => {
   try {
     const images = await Image.find();
     res.json(images);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    res.status(500).json({ message: 'Error fetching images', error: error.message });
   }
 });
 
+app.post('/api/upload', upload.single('image'), async (req, res) => {
+  try {
+    if (!req.file) {
+      throw new Error('No file uploaded');
+    }
+
+    const image = new Image({
+      filename: req.file.filename,
+      originalname: req.file.originalname,
+    });
+
+    await image.save();
+    res.status(200).json(image);
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    res.status(500).json({ message: 'Error uploading image', error: error.message });
+  }
+});
+
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

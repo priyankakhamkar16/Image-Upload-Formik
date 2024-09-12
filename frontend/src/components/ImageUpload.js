@@ -8,6 +8,10 @@ import sampleImage1 from '../images/sample1.jpg';
 import sampleImage2 from '../images/sample2.jpg';
 import sampleImage3 from '../images/sample3.jpg';
 
+import sampleImage1 from '../images/sample1.jpg';
+import sampleImage2 from '../images/sample2.jpg';
+import sampleImage3 from '../images/sample3.jpg';
+
 function ImageUpload() {
   const [previewImage, setPreviewImage] = useState(null); // State for image preview
   const navigate = useNavigate();
@@ -17,7 +21,11 @@ function ImageUpload() {
     formData.append('image', values.image);
 
     try {
+<<<<<<< HEAD
       await axios.post('http://localhost:5000/api/images/upload', formData, {
+=======
+      await axios.post('https://image-upload-formik.vercel.app/api/upload', formData, {
+>>>>>>> 43b73dff8a83a37fdc2750cdb6818dfa13140849
         headers: {
           'Content-Type': 'multipart/form-data',
         },
