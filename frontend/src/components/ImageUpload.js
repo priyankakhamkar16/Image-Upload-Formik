@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, ErrorMessage } from 'formik';
 import axios from 'axios';
-import './ImageUpload.css';  
-
-import sampleImage1 from '../images/sample1.jpg';
-import sampleImage2 from '../images/sample2.jpg';
-import sampleImage3 from '../images/sample3.jpg';
+import './ImageUpload.css';
 
 import sampleImage1 from '../images/sample1.jpg';
 import sampleImage2 from '../images/sample2.jpg';
@@ -21,11 +17,7 @@ function ImageUpload() {
     formData.append('image', values.image);
 
     try {
-<<<<<<< HEAD
-      await axios.post('http://localhost:5000/api/images/upload', formData, {
-=======
       await axios.post('https://image-upload-formik.vercel.app/api/upload', formData, {
->>>>>>> 43b73dff8a83a37fdc2750cdb6818dfa13140849
         headers: {
           'Content-Type': 'multipart/form-data',
         },
