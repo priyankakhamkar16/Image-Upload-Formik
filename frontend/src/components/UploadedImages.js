@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './UploadedImages.css';
+import './UploadedImages.css'; // Import the updated CSS file
 
 function UploadedImages() {
   const [images, setImages] = useState([]);
@@ -8,7 +8,7 @@ function UploadedImages() {
   useEffect(() => {
     async function fetchImages() {
       try {
-        const response = await axios.get('https://image-upload-formik.vercel.app/api/images');
+        const response = await axios.get('http://localhost:5000/api/images');
         setImages(response.data);
       } catch (error) {
         console.error('Error fetching images', error);
@@ -29,7 +29,7 @@ function UploadedImages() {
             {images.map((image) => (
               <div key={image._id} className="image-container">
                 <img
-                  src={`https://image-upload-formik-jqk6.vercel.app/uploads/${image.filename}`}
+                  src={`http://localhost:5000/uploads/${image.filename}`}
                   alt={image.originalname}
                 />
               </div>
